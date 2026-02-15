@@ -6,44 +6,99 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+
+  <body>
+    <Header />
+
+    <main class="wrapper">
+      <section class="hero">
+        <h1>👋 你好，我是 Junqiang Wang</h1>
+        <p class="sub">
+          这里记录我的学习、技术与思考。主要关注部署运维、前端工程化、AI 工具与自动化。
+        </p>
+
+        <div class="links">
+          <a class="btn" href="/about/">关于我</a>
+          <a class="btn ghost" href="https://github.com/JunqiangWang-1997" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          <a class="btn ghost" href="mailto:wangjunqiang970809@gmail.com">Email</a>
+        </div>
+      </section>
+
+      <section class="tip">
+        <p>
+          ✅ 网站由 Astro 构建，GitHub Actions 自动部署到 VPS，Caddy 提供静态托管。
+        </p>
+      </section>
+
+      <!-- 下面这块是模板原本的文章列表区域：我们不改它的逻辑 -->
+      <!-- 你原模板如果在 index 里已经有文章列表，请把那部分原样保留/粘回这里 -->
+    </main>
+
+    <Footer />
+
+    <style>
+      .wrapper {
+        width: min(900px, 92vw);
+        margin: 0 auto;
+        padding: 2.5rem 0 3rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(2rem, 4vw, 2.6rem);
+        line-height: 1.2;
+        margin: 0 0 0.75rem 0;
+      }
+
+      .sub {
+        margin: 0;
+        opacity: 0.8;
+        font-size: 1.05rem;
+      }
+
+      .links {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 1.25rem;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(127, 127, 127, 0.35);
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.05s ease, background 0.15s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        background: rgba(127, 127, 127, 0.08);
+      }
+
+      .btn.ghost {
+        opacity: 0.9;
+      }
+
+      .tip {
+        margin-top: 1.6rem;
+        padding: 0.9rem 1rem;
+        border-radius: 14px;
+        border: 1px dashed rgba(127, 127, 127, 0.35);
+        opacity: 0.85;
+      }
+
+      .tip p {
+        margin: 0;
+      }
+    </style>
+  </body>
 </html>
