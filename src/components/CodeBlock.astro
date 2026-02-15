@@ -1,0 +1,134 @@
+---
+type Props = {
+  title?: string;
+  collapsed?: boolean; // 默认是否折叠
+};
+
+const { title = '代码', collapsed = true } = Astro.props;
+---
+
+<section class="cb" data-collapsed={collapsed ? '1' : '0'}>
+  <div class="cb__bar">
+    <div class="cb__left">
+      <button class="cb__toggle" type="button" aria-expanded={!collapsed}>
+        <span class="cb__chev" aria-hidden="true">▸</span>
+        <span class="cb__title">{title}</span>
+      </button>
+    </div>
+
+    <button class="cb__copy" type="button">复制</button>
+  </div>
+
+  <div class="cb__body">
+    <slot />
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.cb').forEach((root) => {
+    const collapsed = root.dataset.collapsed === '1';
+    const body = root.querySelector('.cb__body');
+    const toggle = root.querySelector('.cb__toggle');
+    const chev = root.querySelector('.cb__chev');
+    const copyBtn = root.querySelector('.cb__copy');
+    const code = root.querySelector('.cb__body pre code');
+
+    // init
+    if (collapsed) {
+      body.style.display = 'none';
+      toggle.setAttribute('aria-expanded', 'false');
+      chev.textContent = '▸';
+    } else {
+      toggle.setAttribute('aria-expanded', 'true');
+      chev.textContent = '▾';
+    }
+
+    toggle.addEventListener('click', () => {
+      const isOpen = body.style.display !== 'none';
+      body.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      chev.textContent = isOpen ? '▸' : '▾';
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(code?.textContent || '');
+        const old = copyBtn.textContent;
+        copyBtn.textContent = '已复制';
+        setTimeout(() => (copyBtn.textContent = old), 900);
+      } catch (e) {
+        copyBtn.textContent = '复制失败';
+        setTimeout(() => (copyBtn.textContent = '复制'), 900);
+      }
+    });
+  });
+</script>
+
+<style>
+  .cb {
+    margin: 1.2rem 0;
+    border: 1px solid rgba(127, 127, 127, 0.28);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(127, 127, 127, 0.06);
+  }
+
+  .cb__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid rgba(127, 127, 127, 0.18);
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  .cb__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 0.2rem 0.25rem;
+    font-weight: 600;
+  }
+
+  .cb__title {
+    font-size: 0.95rem;
+    opacity: 0.9;
+  }
+
+  .cb__chev {
+    font-size: 0.95rem;
+    opacity: 0.7;
+  }
+
+  .cb__copy {
+    border: 1px solid rgba(127, 127, 127, 0.3);
+    background: white;
+    border-radius: 10px;
+    padding: 0.35rem 0.6rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    opacity: 0.9;
+  }
+
+  .cb__copy:hover {
+    opacity: 1;
+  }
+
+  .cb__body :global(pre) {
+    margin: 0;
+    padding: 0.85rem 0.9rem;
+    overflow: auto;
+  }
+
+  /* 字体更小，更像教程 */
+  .cb__body :global(code) {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    white-space: pre;
+  }
+</style>
